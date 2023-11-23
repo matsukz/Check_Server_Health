@@ -15,24 +15,22 @@
                     </thead>
                     <tbody class="text-center">
                         {% for key in Resp.keys() %}
-                            {% for i in Resp %}
-                                {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
-                                    <tr class="table-danger">
-                                {% elif Resp[key]["ping"] > 2 %}
-                                    <tr class="table-warning">
-                                {% else %}
-                                    <tr class="table-success">
-                                {% endif %}
-                                    <td>{{ key }}</td>
-                                    <td>{{ Resp[key]["ip"] }}</td>
+                            {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
+                                <tr class="table-danger">
+                            {% elif Resp[key]["ping"] > 2 %}
+                                <tr class="table-warning">
+                            {% else %}
+                                <tr class="table-success">
+                            {% endif %}
+                                <td>{{ key }}</td>
+                                <td>{{ Resp[key]["ip"] }}</td>
 
-                                    {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
-                                        <td>Connection Failed</td>
-                                    {% else %}
-                                        <td>{{ Resp[key]["ping"]|float|round(2) }}ms</td>
-                                    {% endif %}                
-                                </tr>
-                            {% endfor %}
+                                {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
+                                    <td>Connection Failed</td>
+                                {% else %}
+                                    <td>{{ Resp[key]["ping"]|float|round(4) }}ms</td>
+                                {% endif %}                
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
