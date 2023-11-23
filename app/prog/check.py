@@ -24,6 +24,3 @@ def PingCheck():
 def free_PingCheck(ip):
     result = {ip:ping(ip)}
     return result
-
-
-    

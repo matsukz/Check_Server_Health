@@ -1,8 +1,8 @@
 from flask import Flask, redirect, render_template, request
 import os
 from ping3 import ping 
-
 from prog import check
+
 app = Flask(__name__)
 
 @app.route("/")
