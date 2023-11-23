@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-grid mx-auto">
+            <h1 class="text-center">PING確認</h1>
+            <div class="table-responsive">
+                <table class="table text-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="text-center">クライアント</th>
+                            <th class="text-center">IPアドレス</th>
+                            <th class="text-center">ping</th>                
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for key in Resp.keys() %}
+                            {% for i in Resp %}
+                                {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
+                                    <tr class="table-danger">
+                                {% elif Resp[key]["ping"] > 2 %}
+                                    <tr class="table-warning">
+                                {% else %}
+                                    <tr class="table-success">
+                                {% endif %}
+                                    <td>{{ key }}</td>
+                                    <td>{{ Resp[key]["ip"] }}</td>
+
+                                    {% if Resp[key]["ping"] == -1 or Resp[key]["ping"] is none%}
+                                        <td>Connection Failed</td>
+                                    {% else %}
+                                        <td>{{ Resp[key]["ping"]|float|round(2) }}ms</td>
+                                    {% endif %}                
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

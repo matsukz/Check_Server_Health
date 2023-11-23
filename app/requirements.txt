@@ -1,0 +1,5 @@
+requests
+flask
+flask-sqlalchemy
+PyMySQL
+ping3

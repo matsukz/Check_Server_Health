@@ -1,0 +1,14 @@
+version: "3"
+services:
+  flask:
+    container_name: Health_flask
+    build: app/
+    restart: always
+    ports:
+      - 5500:5000
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: python3 app.py
+    environment:
+      - TZ=Asia/Tokyo
