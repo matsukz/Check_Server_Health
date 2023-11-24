@@ -12,3 +12,14 @@ services:
     command: python3 app.py
     environment:
       - TZ=Asia/Tokyo
+
+  php:
+    container_name: php
+    image: php:8.1-apache
+    volumes:
+      - ./php/html:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - 8080:80
+    environment:
+      - TZ=Asia/Tokyo
