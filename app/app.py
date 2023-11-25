@@ -1,9 +1,14 @@
-from flask import Flask, redirect, render_template, request
-import os
-from ping3 import ping 
+from flask import Flask, redirect, render_template, request, jsonify
+from flask_cors import CORS
+from ping3 import ping
 
+import os
+import time
 from prog import check
 app = Flask(__name__)
+
+#Access-Control-Allow-Originへの対処
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def route():
@@ -24,6 +29,11 @@ def route_api():
         ip = request.args.get("ip")
         Resp = check.free_PingCheck(ip)
         return Resp
+
+@app.route("/ping-ajax-get", methods=["GET"])
+def ajax_get():
+    time.sleep(5)
+    return jsonify(data="Your data is ready!")
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

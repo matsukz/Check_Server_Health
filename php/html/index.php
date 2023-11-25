@@ -9,8 +9,21 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <script src="js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="js/ajax.js"></script>
     </head>
     <body>
-        <h1 class="text-center">タイトル</h1>
+
+        <div class="text-center">
+            <h1>タイトル</h1>
+
+            <div id="loading">
+                <p>loading...</p> 
+            </div>
+
+            <div id="contact" style="display: none;">
+                <p>OK!</p> 
+            </div>
+        </div>
+        
     </body>
 </html>
