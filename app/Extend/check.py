@@ -8,7 +8,7 @@ result = {}
 def PingCheck():
 
     # JSONの読み込み
-    data = open("/app/prog/CheckList.json","r")
+    data = open("/app/Extend/CheckList.json","r")
     CheckList = json.load(data)
 
     for key in CheckList.keys(): #keyを取得するループ
