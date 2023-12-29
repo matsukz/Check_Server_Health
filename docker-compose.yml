@@ -12,3 +12,13 @@ services:
     command: python3 app.py
     environment:
       - TZ=Asia/Tokyo
+
+  php:
+    container_name: Health_php
+    image: php:8.2-apache
+    ports:
+      - 8500:80
+    volumes:
+      - ./php:/var/www/html
+    environment:
+      - TZ=Asia/Tokyo
