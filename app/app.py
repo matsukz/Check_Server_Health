@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, jsonify
 import os
 from ping3 import ping 
 
@@ -28,10 +28,17 @@ def route_api():
 
 @app.route("/port")
 def route_port():
+
+    ip = service = option = ""
+
     ip = request.args.get("ip")
     service = request.args.get("port")
-    return port.check_ports(ip,service)
+    option = request.args.get("option")
 
-
+    if ip is None or service is None:
+        return jsonify({"Result":"Error Required parameter does not exist."}), 500
+    else:
+        return port.check_ports(ip,service,option)
+    
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

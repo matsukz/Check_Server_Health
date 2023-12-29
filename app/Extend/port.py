@@ -1,7 +1,7 @@
 import socket
 from datetime import datetime, timedelta, timezone
 
-def check_ports(ip,port):
+def check_ports(ip,port,option):
     service = ""
     result = {}
     try:
@@ -10,9 +10,12 @@ def check_ports(ip,port):
     except:
         service = False
     
-    result["Time"] = str(datetime.now(timezone(timedelta(hours=9))))
-    result["RemoteServer"] = ip
-    result["Port"] = port
-    result["Result"] = service
+    if option == "1":
+        result["Time"] = str(datetime.now(timezone(timedelta(hours=9))))
+        result["RemoteServer"] = ip
+        result["Port"] = port
+        result["Result"] = service
+    else:
+        result["Result"] = service      
     
     return result
