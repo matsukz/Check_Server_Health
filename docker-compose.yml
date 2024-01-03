@@ -22,3 +22,10 @@ services:
       - ./php:/var/www/html
     environment:
       - TZ=Asia/Tokyo
+  
+  cloudflared:
+    image: cloudflare/cloudflared
+    container_name: Health_cloudflared
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
