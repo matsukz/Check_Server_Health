@@ -1,6 +1,5 @@
 app/Extend/__pycache__/check.cpython-310.pyc
 app/Extend/__pycache__/port.cpython-310.pyc
-php/Client.json
-php/icon.png
-php/Client.json.old
 app/Extend/__pycache__/ping.cpython-310.pyc
+php/doc/Client.json
+php/doc/icon.png
