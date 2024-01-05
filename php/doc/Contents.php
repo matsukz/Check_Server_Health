@@ -66,7 +66,7 @@
 
 <div class="d-flex justify-content-center">
     <div class="Container col-md-8">
-
+        <div class="float-end"><?php echo date("Y年n月j日 H時i分s秒"); ?></div>
         <div class="accordion" id="accordion_main">
             <?php
                 $json = json_decode(file_get_contents("Client.json"),true);
