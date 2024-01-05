@@ -19,7 +19,8 @@ services:
     ports:
       - 8500:80
     volumes:
-      - ./php:/var/www/html
+      - ./php/doc:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
     environment:
       - TZ=Asia/Tokyo
   
