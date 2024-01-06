@@ -1,65 +1,77 @@
 <?php
     error_reporting(0);
 
-    $Agent = "PHPServiceChecker";
-    $options = [
-        "http" => [
-            "method" => "GET",
-            "header" => "User-Agent: $Agent\r\n"
-        ]
-    ];
-    $context = stream_context_create($options);
-
-    //ポートをチェックする関数
     function PortCheck($ip,$port){
-        $Flask = "http://192.168.0.102:5500";
-        $URL = $Flask."/port?ip=".$ip."&port=".$port;
-        global $context;
-        $json = file_get_contents($URL,false,$context);
-        $data = json_decode($json,true);
-        if ($data == true){
-            if ($data["Result"] == true){
-                //OK
+        $URL = "http://Health_flask:5000/port?ip=".$ip."&port=".$port; //URL指定
+        $ch = curl_init(); //curl接続初期化
+        $options = [
+            //curlオプション指定
+            CURLOPT_URL => $URL,
+            CURLOPT_RETURNTRANSFER => true, //返信を有効に
+            CURLOPT_FRESH_CONNECT => true, //キャッシュを利用しない
+            CURLOPT_CONNECTTIMEOUT => 5 //5sでタイムアウト
+        ];
+        curl_setopt_array($ch,$options);
+        $response = curl_exec($ch); //curl実行
+        $code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch); //curl終了
+
+        if ($code == 200){
+            $json = json_decode($response,true); //配列化
+            if ($json["Result"] == true){
                 return '<div class="text-success">ONLINE</div>';
             }else{
-                //NG
                 return '<div class="text-danger">OFFLINE</div>';
             }
         }else{
-            //Flaskへのリクエスト失敗
             return '<div class="text-danger">API ERROR</div>';
         }
     }
 
-    //PINGをチェックする関数
-    function PingCheck($ip){
-        global $context;
-        $Flask = "http://192.168.0.102:5500";
-        $URL = $Flask."/ping?ip=".$ip;
-        $json = file_get_contents($URL,false,$context);
-        $data = json_decode($json,true);
-        if ($data == true){
-            if ($data["Result"] >= 0){
-                //OK
-                return '<div class="text-success">OK</div>';
-            }elseif ($data["Result"] == null){
-                //NG
-                return '<div class="text-danger">NG</div>';
-            }else{
-                return '<div class="text-danger">API ERROR</div>';
-            }
-        }
-    }
-
     function WARPCheck($ip){
-        global $context;
-        $URL = "http://".$ip."/check_warp";
-        $json = file_get_contents($URL,false,$context);
-        $data = json_decode($json,true);
-        if ($data == true){
+        $ch = curl_init();
+        $options = [
+            CURLOPT_URL => "http://".$ip."/check_warp",
+            CURLOPT_USERAGENT => "PHPServiceChecker",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_CONNECTTIMEOUT => 5
+        ];
+        curl_setopt_array($ch,$options);
+        curl_exec($ch);
+        $response = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($response == 200){
             return '<div class="text-success">ONLINE</div>';
         }else{
             return '<div class="text-danger">OFFLINE</div>';
+        }
+    }
+
+    function PingCheck($ip){
+        $URL = "http://Health_flask:5000/ping?ip=".$ip;
+        $ch = curl_init();
+        $options = [
+            CURLOPT_URL => $URL,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_CONNECTTIMEOUT => 5
+        ];
+        curl_setopt_array($ch,$options);
+        $response = curl_exec($ch);
+        $code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($code == 200){
+            $json = json_decode($response,true);
+            if ($json["Result"] >= 0){
+                return '<div class="text-success">OK</div>';
+            }else{
+                '<div class="text-danger">NG</div>';
+            }
+        }else{
+            return '<div class="text-danger">API ERROR</div>';
         }
     }
 ?>
@@ -119,7 +131,6 @@
                     
                     //divタグを閉じる
                     echo '</div></div>';
-                
                 }
             ?>
         </div>
