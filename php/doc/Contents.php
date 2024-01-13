@@ -49,6 +49,28 @@
         }
     }
 
+    function HttpResponse($ip,$port,$path){
+        $URL = "http://".$ip.":".$port.$path;
+        $ch = curl_init();
+        $options = [
+            CURLOPT_URL => $URL,
+            CURLOPT_USERAGENT => "PHPServiceChecker",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_CONNECTTIMEOUT => 5
+        ];
+        curl_setopt_array($ch,$options);
+        curl_exec($ch);
+        $code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($code == 200){
+            return '<div class="text-success">ONLINE</div>';
+        }else{
+            return '<div class="text-danger">OFFLINE</div>';
+        }
+    }
+
     function PingCheck($ip){
         $URL = "http://Health_flask:5000/ping?ip=".$ip;
         $ch = curl_init();
@@ -105,11 +127,16 @@
                     echo '</div>';
 
                     //サービスとポートを取得しPortCheckに投げる
+                    //HTTPの場合はcURLでステータスコードを取得する
                     echo '<div class="row">';
                         foreach($json[$key]["Port"] as $service=>$port){
                             echo '<div class="col-6"><div class="text-center">'.$service.'</div></div>';
                             echo '<div class="col-6">';
-                            echo '<div class="text-center">'.PortCheck($json[$key]["IP"],$port).'</div>';
+                            if ($port == 80 || $port == 8080){
+                                echo '<div class="text-center">'.HttpResponse($json[$key]["IP"],$port,$json[$key]["URLPath"]).'</div>';
+                            }else{
+                                echo '<div class="text-center">'.PortCheck($json[$key]["IP"],$port).'</div>';
+                            }
                             echo '</div>';
                         }
                     echo '</div>';
