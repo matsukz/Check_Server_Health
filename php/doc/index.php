@@ -27,12 +27,17 @@
 
         <script>
             $(document).ready(function(){
-                $.ajax({
-                    url: "Contents.php"
-                }).done(function(result){
-                    $("#main").html(result).show();   
-                    $("#loading").hide();
-                });
+                function getContents() {
+                    $.ajax({
+                        url: "Contents.php",
+                        cache: false
+                    }).done(function(result){
+                        $("#main").html(result).show();   
+                        $("#loading").hide();
+                    });                    
+                }
+                getContents(); //初回のみ実行
+                setInterval(getContents, 600000) //60秒ごとに実行
             });
         </script>
 
