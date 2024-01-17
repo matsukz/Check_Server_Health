@@ -40,7 +40,7 @@ cloudflaredを利用して安全にWebサイトを公開しましょう。
 |IP|サーバーのIPアドレス|
 |WARP|WARPから割り当てられたIPアドレス(省略可)|
 |Port|サービスとポートを設定|
-|URLPath|HTTPで確認するときに用いるURL(省略可)|
+|URLPath|HTTPで確認するときに用いるURL|
 
 ## まとめ
 ポート開放不要なのが最高すぎる
