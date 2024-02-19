@@ -15,6 +15,8 @@ def check_ports(ip,port,option):
         result["RemoteServer"] = ip
         result["Port"] = port
         result["Result"] = service
+    elif option == "2":
+        return str(service)
     else:
         result["Result"] = service      
     
