@@ -10,6 +10,8 @@ def check_ping(ip,option):
     if option == "1":
         result["Time"] = str(datetime.now(timezone(timedelta(hours=9))))
         result["RemoteServer"] = ip
+    elif option == "2":
+        return str(ping(ip,timeout=2,unit="ms"))
     else:
         pass
 
